@@ -36,6 +36,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Other stuff i dont want uploaded
+submissions/
+
 # Typescript v1 declaration files
 typings/
 
