@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const redis = require('redis');
 const compression = require('compression');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
@@ -21,6 +23,14 @@ mongoose.connect(dbURI, (err) => {
   }
 });
 
+const redisURL = process.env.REDISCLOUD_URL || 'redis://default:vNfM5AXb7fSNoec15rWdDMUuFixVTGHr@redis-15722.c15.us-east-1-4.ec2.cloud.redislabs.com:15722';
+
+let redisClient = redis.createClient({
+    legacyMode: true,
+    url: redisURL,
+});
+redisClient.connect().catch(console.error);
+
 const app = express();
 
 app.use(helmet());
@@ -31,10 +41,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(session({
-  key: 'sessionid',
-  secret: 'Domo Arigato',
-  resave: true,
-  saveUninitialized: true,
+    key: 'sessionid',
+    store: new RedisStore({
+        client: redisClient,
+    }),
+    secret: 'Domo Arigato',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+    },
 }));
 
 app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
