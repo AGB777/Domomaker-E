@@ -3,14 +3,7 @@ const models = require('../models');
 const { Domo } = models;
 
 const makerPage = (req, res) => {
-  Domo.findByOwner(req.session.account._id, (err, docs) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ error: 'An error has occured!' });
-    }
-
-    res.render('app', { csrfToken: req.csrfToken, domos: docs });
-  });
+    res.render('app');
 };
 
 const makeDomo = async (req, res) => {
@@ -27,7 +20,7 @@ const makeDomo = async (req, res) => {
   try {
     const newDomo = new Domo(domoData);
     await newDomo.save();
-    return res.json({ redirect: '/maker' });
+    return res.status(201).json({ name: newDomo.name, age: newDomo.age });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
@@ -37,7 +30,18 @@ const makeDomo = async (req, res) => {
   }
 };
 
+const getDomos = async (req, res) => {
+    return Domo.findByOwner(req.session.account._id, (err, docs) => {
+        if (err) {
+            console.log(err);
+            res.status(400).json({ error: 'An error has occured!' });
+        }
+        return res.json({domos: docs});
+    });
+}
+
 module.exports = {
   makerPage,
   makeDomo,
+    getDomos,
 };

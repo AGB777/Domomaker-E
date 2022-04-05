@@ -1,13 +1,27 @@
 const path = require('path');
 
 module.exports = {
-    entry: './client/client.js',
-    mode: 'production',
+    entry: {
+        app: './client/maker.jsx',
+        login: './client/login.jsx',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_madules/,
+                use: {
+                    loader: "babel-loader",
+                },
+            },
+        ],
+    },
+    mode: 'none',
     watchOptions: {
         aggregateTimeout: 200,
     },
     output: {
         path: path.resolve(__dirname, 'hosted'),
-        filename: 'bundle.js',
+        filename: '[name]bundle.js',
     },
 };
