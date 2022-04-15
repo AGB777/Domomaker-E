@@ -27,17 +27,17 @@ mongoose.connect(dbURI, (err) => {
 
 const redisURL = process.env.REDISCLOUD_URL || 'redis://default:vNfM5AXb7fSNoec15rWdDMUuFixVTGHr@redis-15722.c15.us-east-1-4.ec2.cloud.redislabs.com:15722';
 
-let redisClient = redis.createClient({
-    legacyMode: true,
-    url: redisURL,
+const redisClient = redis.createClient({
+  legacyMode: true,
+  url: redisURL,
 });
 redisClient.connect().catch(console.error);
 
 const app = express();
 
 app.use(helmet({
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: false,
 }));
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted/`)));
 app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
@@ -46,16 +46,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(session({
-    key: 'sessionid',
-    store: new RedisStore({
-        client: redisClient,
-    }),
-    secret: 'Domo Arigato',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-    },
+  key: 'sessionid',
+  store: new RedisStore({
+    client: redisClient,
+  }),
+  secret: 'Domo Arigato',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+  },
 }));
 
 app.engine('handlebars', expressHandlebars.engine({ defaultLayout: '' }));
@@ -65,10 +65,10 @@ app.use(cookieParser());
 
 app.use(csrf());
 app.use((err, req, res, next) => {
-    if(err.code !== 'EBADCSRFTOKEN') return next(err);
-    
-    console.log('Missing CSRF token!');
-    return false;
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+
+  console.log('Missing CSRF token!');
+  return false;
 });
 
 router(app);

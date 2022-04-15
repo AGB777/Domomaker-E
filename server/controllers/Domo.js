@@ -3,7 +3,7 @@ const models = require('../models');
 const { Domo } = models;
 
 const makerPage = (req, res) => {
-    res.render('app');
+  res.render('app');
 };
 
 const makeDomo = async (req, res) => {
@@ -30,18 +30,16 @@ const makeDomo = async (req, res) => {
   }
 };
 
-const getDomos = async (req, res) => {
-    return Domo.findByOwner(req.session.account._id, (err, docs) => {
-        if (err) {
-            console.log(err);
-            res.status(400).json({ error: 'An error has occured!' });
-        }
-        return res.json({domos: docs});
-    });
-}
+const getDomos = async (req, res) => Domo.findByOwner(req.session.account._id, (err, docs) => {
+  if (err) {
+    console.log(err);
+    res.status(400).json({ error: 'An error has occured!' });
+  }
+  return res.json({ domos: docs });
+});
 
 module.exports = {
   makerPage,
   makeDomo,
-    getDomos,
+  getDomos,
 };

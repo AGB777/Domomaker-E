@@ -2,15 +2,15 @@ const models = require('../models');
 
 const { Account } = models;
 
-const loginPage = (req, res) =>{
-    res.render('login', { csrfToken: req.csrfToken() });
-}
+const loginPage = (req, res) => {
+  res.render('login', { csrfToken: req.csrfToken() });
+};
 
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
- 
+
 const login = (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -57,14 +57,12 @@ const signup = async (req, res) => {
   }
 };
 
-const getToken = (req, res) => {
-    return res.json({csrfToken: req.csrfToken()});
-};
+const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
 module.exports = {
   loginPage,
   login,
   logout,
   signup,
-    getToken,
+  getToken,
 };

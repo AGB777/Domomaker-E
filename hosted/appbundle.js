@@ -88,7 +88,7 @@ const handleDomo = e => {
     return false;
   }
 
-  sendPost(e.target.action, {
+  helper.sendPost(e.target.action, {
     name,
     age,
     _csrf
@@ -106,22 +106,22 @@ const DomoForm = props => {
     className: "domoForm"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "name"
-  }, "Who is your Domo? "), /*#__PURE__*/React.createElement("input", {
+  }, "Name"), /*#__PURE__*/React.createElement("input", {
     id: "domoName",
     type: "text",
     name: "name",
-    placeHolder: "Name Your Domo!"
+    placeholder: "Name Your Domo!"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
-  }, "How old is your Domo? "), /*#__PURE__*/React.createElement("input", {
+  }, "Age"), /*#__PURE__*/React.createElement("input", {
     id: "domoAge",
     type: "number",
     name: "age",
-    placeHolder: "Age Your Domo!"
+    placeholder: "Age Your Domo!"
   }), /*#__PURE__*/React.createElement("input", {
     id: "_csrf",
-    type: "hiden",
-    value: props.csrfToken
+    type: "hidden",
+    value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
     className: "makeDomoSubmit",
     type: "submit",
@@ -143,7 +143,7 @@ const DomoList = props => {
       key: domo._id,
       className: "domo"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpg",
+      src: "/assets/img/domoface.jpeg",
       alt: "domo face",
       className: "domoFace"
     }), /*#__PURE__*/React.createElement("h3", {

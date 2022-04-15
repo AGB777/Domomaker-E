@@ -13,7 +13,7 @@ const handleDomo = (e) => {
         return false;
     }
     
-    sendPost(e.target.action, {name, age, _csrf}, loadDomosFromServer);
+    helper.sendPost(e.target.action, {name, age, _csrf}, loadDomosFromServer);
     
     return false;
 }
@@ -26,11 +26,11 @@ const DomoForm = (props) => {
             action="/maker"
             method="POST"
             className="domoForm">
-            <label htmlFor="name">Who is your Domo? </label>
-            <input id="domoName" type="text" name="name" placeHolder="Name Your Domo!" />
-            <label htmlFor="age">How old is your Domo? </label>
-            <input id="domoAge" type="number" name="age" placeHolder="Age Your Domo!" />
-            <input id="_csrf" type="hiden" value={props.csrfToken} />
+            <label htmlFor="name">Name</label>
+            <input id="domoName" type="text" name="name" placeholder="Name Your Domo!" />
+            <label htmlFor="age">Age</label>
+            <input id="domoAge" type="number" name="age" placeholder="Age Your Domo!" />
+            <input id="_csrf" type="hidden" value={props.csrf} />
             <input className="makeDomoSubmit" type="submit" value="Make Your Domo!" />
         </form>
     )
@@ -48,7 +48,7 @@ const DomoList = (props) => {
     const domoNodes = props.domos.map(domo => {
         return(
             <div key={domo._id} className="domo">
-                <img src="/assets/img/domoface.jpg" alt="domo face" className="domoFace" />
+                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="domoName">Name: {domo.name} </h3>
                 <h3 className="domoAge">Age: {domo.age} </h3>
             </div>
